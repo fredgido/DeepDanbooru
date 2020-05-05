@@ -21,10 +21,15 @@ DEFAULT_PROJECT_CONTEXT = {
 }
 
 
+def load_tags_from_project(project_path):
+    tags_path = os.path.join(project_path, 'tags.txt')
+
+    return dd.data.load_tags(tags_path)
+
 def load_project(project_path):
-    project_context_path = os.path.join(project_path, 'project.json')
+    project_context_path = os.path.join(project_path, 'project.json')«
     project_context = dd.io.deserialize_from_json(project_context_path)
-    tags = dd.data.load_tags_from_project(project_path)
+    tags = load_tags_from_project(project_path)
 
     model_type = project_context['model']
     model_path = os.path.join(project_path, f'model-{model_type}.h5')
@@ -43,8 +48,3 @@ def load_model_from_project(project_path, compile_model=True):
 
     return model
 
-
-def load_tags_from_project(project_path):
-    tags_path = os.path.join(project_path, 'tags.txt')
-
-    return dd.data.load_tags(tags_path)
